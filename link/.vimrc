@@ -227,7 +227,9 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'majutsushi/tagbar'
 Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/vimproc.vim'
-Plugin 'Valloric/YouCompleteMe'
+if v:version > 703 || (v:version == 703 && has("patch584") && has("python"))
+    Plugin 'Valloric/YouCompleteMe'
+endif
 Plugin 'tsukkee/unite-tag'
 Plugin 'Shougo/neocomplcache.vim'
 " vim-scripts repos
