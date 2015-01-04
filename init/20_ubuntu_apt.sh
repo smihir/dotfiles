@@ -35,8 +35,12 @@ fi
 # Update APT.
 e_header "Updating APT"
 sudo apt-get update
-# Don't upgrade for now
-#sudo apt-get -y dist-upgrade
+read -N 1 -t $prompt_delay -p "Perform dist-upgrade? [y/N] " dist_upgrade; echo
+if [[ "$dist_upgrade" =~ [Yy] ]]; then
+  sudo apt-get -y dist-upgrade
+else
+  echo "Skipping dist-upgrade"
+fi
 
 # Install APT packages.
 packages=(
@@ -53,6 +57,7 @@ packages=(
   telnet
   tree
   vim
+  exuberant-ctags
 )
 
 packages=($(setdiff "${packages[*]}" "$(dpkg --get-selections | grep -v deinstall | awk '{print $1}')"))
