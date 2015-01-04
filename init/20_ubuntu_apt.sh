@@ -50,9 +50,7 @@ packages=(
   htop
   id3tool
   libssl-dev
-  mercurial
   nmap
-  silversearcher-ag
   sl
   telnet
   tree
@@ -67,13 +65,4 @@ if (( ${#packages[@]} > 0 )); then
   for package in "${packages[@]}"; do
     sudo apt-get -y install "$package"
   done
-fi
-
-# Install Git Extras
-if [[ ! "$(type -P git-extras)" ]]; then
-  e_header "Installing Git Extras"
-  (
-    cd $DOTFILES/vendor/git-extras &&
-    sudo make install
-  )
 fi
