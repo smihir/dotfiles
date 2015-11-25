@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-[[ "$1" == "source" ]] || \
+[[ "$1" == "source" ]] || \ echo ""
 
-echo 'Dotfiles - Mihir Shete - http://smihir.io'
-echo 'Credits- "Cowboy" Ben Alman - http://benalman.com/'
+
+#echo 'Credits- "Cowboy" Ben Alman - http://benalman.com/'
+#echo 'Dotfiles - Mihir Shete - http://smihir.io'
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 

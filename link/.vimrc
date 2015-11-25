@@ -79,6 +79,9 @@ if v:version > 703 || (v:version == 703 && has("patch584") && has("python"))
 endif
 Plugin 'tsukkee/unite-tag'
 Plugin 'Shougo/neocomplcache.vim'
+Plugin 'fatih/vim-go'
+Plugin 'lervag/vimtex'
+Plugin 'vim-utils/vim-man'
 
 " End Vundle Block
 call vundle#end()
@@ -86,6 +89,8 @@ filetype plugin indent on " required for Vundle
 
 " Settings for YCM
 let g:ycm_show_diagnostics_ui=0
+let g:ycm_autoclose_preview_window_after_completion=1
+nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " Settings for vim-colors-solarized
 syntax enable
@@ -145,7 +150,8 @@ let g:ycm_confirm_extra_conf=0
 let g:ycm_show_diagnostics_ui=0
 let g:neocomplcache_enable_at_startup=0
 
-
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
 " ============================================================================
 " Python IDE Setup
 " ============================================================================
@@ -168,30 +174,37 @@ let g:neocomplcache_enable_at_startup=0
 " Settings for jedi-vim
 " cd ~/.vim/bundle
 " git clone git://github.com/davidhalter/jedi-vim.git
-"" let g:jedi#usages_command = "<leader>z"
-"" let g:jedi#popup_on_dot = 0
-"" let g:jedi#popup_select_first = 0
-"" map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+let g:jedi#usages_command = "<leader>z"
+let g:jedi#popup_on_dot = 0
+let g:jedi#popup_select_first = 0
+map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
 
 " Better navigating through omnicomplete option list
 " See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
-"" set completeopt=longest,menuone
-"" function! OmniPopup(action)
-""     if pumvisible()
-""         if a:action == 'j'
-""             return "\<C-N>"
-""         elseif a:action == 'k'
-""             return "\<C-P>"
-""         endif
-""     endif
-""     return a:action
-"" endfunction
+set completeopt=longest,menuone
+function! OmniPopup(action)
+    if pumvisible()
+        if a:action == 'j'
+            return "\<C-N>"
+        elseif a:action == 'k'
+            return "\<C-P>"
+        endif
+    endif
+    return a:action
+endfunction
 
-"" inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
-"" inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
+inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
+inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
 
 
 " Python folding
 " mkdir -p ~/.vim/ftplugin
 " wget -O ~/.vim/ftplugin/python_editing.vim http://www.vim.org/scripts/download_script.php?src_id=5492
 "" set nofoldenable
+
+" Go Syntax highlighting and auto-complete
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1

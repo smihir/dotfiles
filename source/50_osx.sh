@@ -5,8 +5,12 @@ is_osx || return 1
 PATH="/usr/local/bin:$(path_remove /usr/local/bin)"
 export PATH
 
+export GOPATH="/Users/mihir/Projects/gotools"
+
 # Trim new lines and copy to clipboard
 alias c="tr -d '\n' | pbcopy"
+
+export PS1="\[\e[00;33m\]\u@\h\[\e[0m\]\[\e[00;31m\]:\[\e[0m\]\[\e[00;32m\]\W\[\e[0m\]\[\e[00;31m\]\\$\[\e[0m\]\[\e[00;37m\] \[\e[0m\]"
 
 # Make 'less' more.
 [[ "$(type -P lesspipe.sh)" ]] && eval "$(lesspipe.sh)"

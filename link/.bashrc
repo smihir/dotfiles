@@ -1,8 +1,12 @@
+if [ -z "$PS1" ]; then
+    return
+fi
+
 # Where the magic happens.
 export DOTFILES=~/.dotfiles
 
 # Add binaries into the path
-PATH=$DOTFILES/bin:$PATH
+PATH=$DOTFILES/bin:$PATH:/usr/local/go/bin
 export PATH
 
 # Source all files in "source"
@@ -23,3 +27,13 @@ function dotfiles() {
 }
 
 src
+
+# NVM
+if [ -s ~/.nvm/nvm.sh ]; then
+	NVM_DIR=~/.nvm
+	source ~/.nvm/nvm.sh
+fi
+
+if [ -s $(brew --prefix)/etc/profile.d/autojump.sh ]; then
+    source $(brew --prefix)/etc/profile.d/autojump.sh
+fi
