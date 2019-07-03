@@ -33,7 +33,3 @@ if [ -s ~/.nvm/nvm.sh ]; then
 	NVM_DIR=~/.nvm
 	source ~/.nvm/nvm.sh
 fi
-
-if [ -s $(brew --prefix)/etc/profile.d/autojump.sh ]; then
-    source $(brew --prefix)/etc/profile.d/autojump.sh
-fi

@@ -3,9 +3,11 @@ is_osx || return 1
 
 # APPLE, Y U PUT /usr/bin B4 /usr/local/bin?!
 PATH="/usr/local/bin:$(path_remove /usr/local/bin)"
+PATH=$PATH:/Applications/MacVim.app/Contents/bin
 export PATH
 
 export GOPATH="/Users/mihir/Projects/gotools"
+export AC_USER="mshete"
 
 # Trim new lines and copy to clipboard
 alias c="tr -d '\n' | pbcopy"
@@ -17,6 +19,9 @@ export PS1="\[\e[00;33m\]\u@\h\[\e[0m\]\[\e[00;31m\]:\[\e[0m\]\[\e[00;32m\]\W\[\
 
 # Start ScreenSaver. This will lock the screen if locking is enabled.
 alias ss="open /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app"
+
+# bash completion
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 # Create a new Parallels VM from template, replacing the existing one.
 function vm_template() {

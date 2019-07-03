@@ -7,10 +7,11 @@
 " From: Matin Brochhaus
 set pastetoggle=<F2>
 set clipboard=unnamed
+set t_Co=256
 
 
 " Mouse and backspace
-set mouse=a  " on OSX press ALT and click
+set mouse=v  " on OSX press ALT and click
 set bs=2     " make backspace behave like normal again
 
 " Set Leader as ,
@@ -72,16 +73,17 @@ Plugin 'Lokaltog/vim-easymotion'
 Plugin 'Lokaltog/vim-powerline'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'majutsushi/tagbar'
-Plugin 'Shougo/unite.vim'
-Plugin 'Shougo/vimproc.vim'
-if v:version > 703 || (v:version == 703 && has("patch584") && has("python"))
+"Plugin 'Shougo/unite.vim'
+"Plugin 'Shougo/vimproc.vim'
+"if v:version > 703 || (v:version == 703 && has("patch584") && has("python"))
         Plugin 'Valloric/YouCompleteMe'
-endif
-Plugin 'tsukkee/unite-tag'
-Plugin 'Shougo/neocomplcache.vim'
-Plugin 'fatih/vim-go'
-Plugin 'lervag/vimtex'
-Plugin 'vim-utils/vim-man'
+"endif
+"Plugin 'tsukkee/unite-tag'
+"Plugin 'Shougo/neocomplcache.vim'
+"Plugin 'fatih/vim-go'
+"Plugin 'lervag/vimtex'
+"Plugin 'vim-utils/vim-man'
+Plugin 'kien/ctrlp.vim'
 
 " End Vundle Block
 call vundle#end()
@@ -90,13 +92,18 @@ filetype plugin indent on " required for Vundle
 " Settings for YCM
 let g:ycm_show_diagnostics_ui=0
 let g:ycm_autoclose_preview_window_after_completion=1
+" Let clangd fully control code completion
+let g:ycm_clangd_uses_ycmd_caching = 0
+" Use installed clangd, not YCM-bundled clangd which doesn't get updates.
+let g:ycm_clangd_binary_path = exepath("/Users/mshete/Projects/llvm-build/bin/clangd")
 nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " Settings for vim-colors-solarized
 syntax enable
 set background=dark
-let g:solarized_termtrans=1 " Required for transparent Terminal
+let g:solarized_termtrans=0 " Required for transparent Terminal
 let g:solarized_termcolors=256 " Required for OSX Terminal
+let g:solarized_visibility= "high"
 colorscheme solarized
 
 
@@ -114,28 +121,28 @@ omap / <Plug>(easymotion-tn)
 
 
 " Unite
-let g:unite_source_history_yank_enable = 1
-let g:unite_force_overwrite_statusline = 0
-let g:unite_enable_start_insert=1
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-nnoremap <c-p> :Unite file_rec/async<cr>
-nnoremap <Space>/ :Unite grep:.<cr>
-nnoremap <space>y :Unite history/yank<cr>
-nnoremap <space>s :Unite -quick-match buffer<cr>
-nnoremap <space>t :Unite tag<cr>
-if executable('ag')
-    let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-    let g:unite_source_grep_recursive_opt = ''
-endif
-
-" Like ctrlp.vim settings.
-call unite#custom#profile('default', 'context', {
-\   'start_insert': 1,
-\   'winheight': 10,
-\   'direction': 'botright',
-\ })
+"let g:unite_source_history_yank_enable = 1
+"let g:unite_force_overwrite_statusline = 0
+"let g:unite_enable_start_insert=1
+"call unite#filters#matcher_default#use(['matcher_fuzzy'])
+"call unite#filters#sorter_default#use(['sorter_rank'])
+"nnoremap <c-p> :Unite file_rec/async<cr>
+"nnoremap <Space>/ :Unite grep:.<cr>
+"nnoremap <space>y :Unite history/yank<cr>
+"nnoremap <space>s :Unite -quick-match buffer<cr>
+"nnoremap <space>t :Unite tag<cr>
+"if executable('ag')
+"    let g:unite_source_grep_command = 'ag'
+"    let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+"    let g:unite_source_grep_recursive_opt = ''
+"endif
+"
+"" Like ctrlp.vim settings.
+"call unite#custom#profile('default', 'context', {
+"\   'start_insert': 1,
+"\   'winheight': 10,
+"\   'direction': 'botright',
+"\ })
 
 "autocmd FileType unite call s:unite_my_settings()
 "    function! s:unite_my_settings()
@@ -208,3 +215,19 @@ let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
+
+" CtrlP
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/dstroot/*,*/buildlogs/*,*/build/*,.gitignore
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+let g:ctrlp_by_filename = 1
+
+" NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+" cron
+autocmd filetype crontab setlocal nobackup nowritebackup
